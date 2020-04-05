@@ -31,7 +31,7 @@ public class GT4500Test {
     // Arrange
 
     // Act
-    boolean result = ship.fireTorpedo(FiringMode.ALL); //Ez a teszt lett kijavítva a feladat során.
+    boolean result = ship.fireTorpedo(FiringMode.ALL); //Ez a teszt lett kijavítva a feladat során.  //Ezt implementáltuk a feladat során.
 
     // Assert
     assertEquals(true, result);
