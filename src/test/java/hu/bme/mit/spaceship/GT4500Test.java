@@ -9,6 +9,7 @@ import static org.mockito.Mockito.*;
 public class GT4500Test {
 
   private GT4500 ship;
+  private GT4500 shipNoMock;
   private TorpedoStore mockTS1;
   private TorpedoStore mockTS2;
 
@@ -18,6 +19,7 @@ public class GT4500Test {
     this.mockTS2=mock(TorpedoStore.class);
 
     this.ship = new GT4500(mockTS1, mockTS2);
+    this.shipNoMock = new GT4500();
   }
 
   @Test
@@ -161,6 +163,35 @@ public class GT4500Test {
     verify(mockTS2, times(1)).isEmpty();
     verify(mockTS1, never()).fire(1);
     verify(mockTS2, never()).fire(1);
+  }
+
+  //hiányzó esetek
+  @Test
+  public void fireLaser_ALL(){
+    // Arrange
+
+    // Act
+    boolean result = shipNoMock.fireLaser(FiringMode.ALL);
+
+    // Assert
+    assertEquals(false, result);
+  }
+
+  @Test
+  public void fireTorpedo_SINGLE_primaryIsEmptyAndSecondaryIsNotEmptyAndFireSecondary(){
+    // Arrange
+    when(mockTS1.isEmpty()).thenReturn(true);
+    when(mockTS2.isEmpty()).thenReturn(false);
+    when(mockTS2.fire(1)).thenReturn(true);
+
+    // Act
+    ship.fireTorpedo(FiringMode.SINGLE);
+
+    // Assert
+    verify(mockTS1, times(1)).isEmpty();
+    verify(mockTS2, times(1)).isEmpty();
+    verify(mockTS1, never()).fire(1);
+    verify(mockTS2, times(1)).fire(1);
   }
 
 }
